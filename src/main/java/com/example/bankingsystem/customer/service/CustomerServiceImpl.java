@@ -7,8 +7,8 @@ import com.example.bankingsystem.customer.model.Customer;
 import com.example.bankingsystem.customer.repository.CustomerRepository;
 import com.example.bankingsystem.customer.repository.Projection.CustomerSearchProjection;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.awt.print.Pageable;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {

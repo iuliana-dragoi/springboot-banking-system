@@ -6,9 +6,9 @@ import com.example.bankingsystem.customer.repository.Projection.CustomerSearchPr
 import com.example.bankingsystem.customer.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.awt.print.Pageable;
 
 @RestController
 @RequestMapping("/api/customer")
