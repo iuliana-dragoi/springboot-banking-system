@@ -1,4 +1,4 @@
-package com.example.bankingsystem.account.exception;
+package com.example.bankingsystem.common.exception;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
