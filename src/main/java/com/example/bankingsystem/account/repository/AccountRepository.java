@@ -28,6 +28,10 @@ public interface AccountRepository extends JpaRepository<Account, Long>, Account
     @Query("Select a from Account a where a.accountNumber =: accountNumber")
     Optional<Account> findForUpdateByAccountNumber(@Param("accountNumber") String accountNumber);
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("Select a from Account a where a.id =: accountId")
+    Optional<Account> findForUpdateByAccountNumber(@Param("accountId") Long accountId);
+
     List<Account> findByStatus(AccountStatus status);
 
     List<Account> findByBalanceGreaterThanOrderByBalanceDesc(BigDecimal amount);

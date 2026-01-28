@@ -2,6 +2,8 @@ package com.example.bankingsystem.account.service;
 
 import com.example.bankingsystem.account.dto.AccountSearchRequest;
 import com.example.bankingsystem.account.dto.AccountSearchResponse;
+import com.example.bankingsystem.account.dto.crud.CreateAccountRequest;
+import com.example.bankingsystem.account.dto.crud.UpdateAccountRequest;
 import com.example.bankingsystem.account.model.Account;
 import com.example.bankingsystem.account.model.AccountStatus;
 import com.example.bankingsystem.account.model.AccountType;
@@ -14,7 +16,13 @@ import java.util.List;
 
 public interface AccountService {
 
-    List<Account> searchAccounts(AccountSearchRequest request);
+    void createAccount(CreateAccountRequest request);
+
+    void updateAccount(UpdateAccountRequest request);
+
+    void deleteAccount(Long id);
+
+    List<AccountSearchResponse> searchAccounts(AccountSearchRequest request);
 
     List<Account> searchAccountsWithSpecification(AccountSearchRequest request);
 

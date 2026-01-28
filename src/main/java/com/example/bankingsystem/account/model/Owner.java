@@ -1,14 +1,15 @@
 package com.example.bankingsystem.account.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.Objects;
 
 @Embeddable
 @Getter
-@RequiredArgsConstructor
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Owner {
 
     private String firstName;

@@ -1,12 +1,13 @@
 package com.example.bankingsystem.account.model;
 
 import jakarta.persistence.Embeddable;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Embeddable
 @Getter
-@RequiredArgsConstructor
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Address {
 
     private String street;
