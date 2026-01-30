@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -32,30 +34,44 @@ public class AccountController {
         this.accountService = accountService;
     }
 
+    @GetMapping("/test")
+    public String test() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean hasAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"));
+
+        return "User: " + auth.getName() + " | Are ADMIN? " + hasAdmin;
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) {
         accountService.createAccount(request);
         return ResponseEntity.status(201).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update")
     public ResponseEntity<Void> update(@RequestBody @Valid UpdateAccountRequest request) {
         accountService.updateAccount(request);
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         accountService.deleteAccount(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping("/search")
     public ResponseEntity<List<AccountSearchResponse>> searchAccounts(@ModelAttribute @Valid AccountSearchRequest request) {
         List<AccountSearchResponse> result = accountService.searchAccounts(request);
         return ResponseEntity.ok(result);
     }
-    
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping("/search/paged")
     public ResponseEntity<Page<AccountSearchResponse>> searchAccountsWithPagination(
             @ModelAttribute @Valid AccountSearchRequest request,
@@ -65,24 +81,28 @@ public class AccountController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping("/search/byStatusAndType")
     public ResponseEntity<Page<AccountSearchProjection>> searchByStatusAndType(@RequestParam AccountStatus status, @RequestParam AccountType type, Pageable pageable) {
         Page<AccountSearchProjection> result = accountService.searchByStatusAndType(status, type, pageable);
         return ResponseEntity.ok(result);
     }
-    
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping("/deposit")
     public ResponseEntity<Void> deposit(@RequestBody @Valid DepositRequest request) {
         accountService.deposit(request.accountNumber(), request.amount());
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping("/withdraw")
     public ResponseEntity<Void> withdraw(@RequestBody @Valid WithdrawRequest request) {
         accountService.withdraw(request.accountNumber(), request.amount());
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping("/transfer")
     public ResponseEntity<Void> transfer(@RequestBody @Valid TransferRequest request) {
         accountService.transfer(request.fromAccount(), request.toAccount(), request.amount());
