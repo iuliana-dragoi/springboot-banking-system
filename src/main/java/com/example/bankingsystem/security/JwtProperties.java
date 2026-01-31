@@ -1,4 +1,4 @@
-package com.example.bankingsystem.security.properties;
+package com.example.bankingsystem.security;
 
 import lombok.Getter;
 import lombok.Setter;

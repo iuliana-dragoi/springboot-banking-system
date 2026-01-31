@@ -1,6 +1,5 @@
 package com.example.bankingsystem.security;
 
-import com.example.bankingsystem.security.properties.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 public class JwtService {
 
-    private final com.example.bankingsystem.security.properties.JwtProperties jwtProperties;
+    private final JwtProperties jwtProperties;
 
     public JwtService(JwtProperties jwtProperties) {
         this.jwtProperties = jwtProperties;
