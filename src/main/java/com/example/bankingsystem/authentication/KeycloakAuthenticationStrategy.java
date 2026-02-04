@@ -38,11 +38,7 @@ public class KeycloakAuthenticationStrategy implements AuthenticationStrategy {
         List<SimpleGrantedAuthority> authorities = roles.stream()
                 .map(SimpleGrantedAuthority::new).toList();
 
-        return new UsernamePasswordAuthenticationToken(
-                jwt.getSubject(), null, authorities
-        );
-
-//        return new BearerTokenAuthenticationToken(token);
+        return new UsernamePasswordAuthenticationToken(jwt.getSubject(), null, authorities);
     }
 
     private String extractToken(HttpServletRequest request) {
