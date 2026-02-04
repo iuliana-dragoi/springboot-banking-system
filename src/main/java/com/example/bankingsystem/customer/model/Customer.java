@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "customer")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @Getter
 @Setter

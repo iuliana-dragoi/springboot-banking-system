@@ -2,6 +2,7 @@ package com.example.bankingsystem.account.controller;
 
 import com.example.bankingsystem.account.dto.AccountSearchRequest;
 import com.example.bankingsystem.account.dto.AccountSearchResponse;
+import com.example.bankingsystem.account.dto.BulkCreateAccountsRequest;
 import com.example.bankingsystem.account.dto.actions.DepositRequest;
 import com.example.bankingsystem.account.dto.actions.TransferRequest;
 import com.example.bankingsystem.account.dto.actions.WithdrawRequest;
@@ -19,13 +20,16 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/accounts")
+@Validated
 public class AccountController {
 
     public final AccountService accountService;
@@ -48,6 +52,13 @@ public class AccountController {
     public ResponseEntity<?> create(@RequestBody @Valid CreateAccountRequest request) {
         accountService.createAccount(request);
         return ResponseEntity.status(201).build();
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/create/bulk")
+    public ResponseEntity<?> createBulk(@RequestBody @Valid BulkCreateAccountsRequest requests) {
+        requests.getRequests().forEach(accountService::createAccount);
+        return ResponseEntity.ok(Map.of("createdCount", requests.getRequests().size()));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

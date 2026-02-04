@@ -1,5 +1,10 @@
 package com.example.bankingsystem.customer.model;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("CORPORATE")
 public class CorporateCustomer extends Customer {
 
     public CorporateCustomer(String firstName, String lastName, String email, String phone) {

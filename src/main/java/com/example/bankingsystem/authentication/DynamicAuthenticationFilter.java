@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -31,6 +32,12 @@ public class DynamicAuthenticationFilter extends OncePerRequestFilter {
         }
 
         AuthType authType = extractAuthType(request);
+        if(authType == null) {
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            response.getWriter().write("X-Auth-Type not specified or invalid!");
+            response.getWriter().flush();
+            return;
+        }
 
         AuthenticationStrategy strategy = strategies.stream()
                 .filter(s -> s.canHandle(authType))
@@ -50,9 +57,6 @@ public class DynamicAuthenticationFilter extends OncePerRequestFilter {
 
     private AuthType extractAuthType(HttpServletRequest request) {
         String authType = request.getHeader("X-Auth-Type");
-        if (authType == null) {
-            return AuthType.KEYCLOAK;
-        }
-        return AuthType.valueOf(authType.toUpperCase());
+        return authType != null ? AuthType.valueOf(authType.toUpperCase()) : null;
     }
 }
