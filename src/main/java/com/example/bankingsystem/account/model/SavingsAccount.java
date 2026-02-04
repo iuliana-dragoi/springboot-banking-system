@@ -9,6 +9,10 @@ import java.math.BigDecimal;
 @DiscriminatorValue("SAVINGS")
 public class SavingsAccount extends Account {
 
+    protected SavingsAccount() {
+        super();
+    }
+
     public SavingsAccount(AccountStatus status, BigDecimal balance, Owner owner) {
         super(status, balance, owner);
     }

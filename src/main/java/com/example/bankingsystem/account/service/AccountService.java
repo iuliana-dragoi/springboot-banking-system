@@ -2,6 +2,7 @@ package com.example.bankingsystem.account.service;
 
 import com.example.bankingsystem.account.dto.AccountSearchRequest;
 import com.example.bankingsystem.account.dto.AccountSearchResponse;
+import com.example.bankingsystem.account.dto.BulkCreateAccountsRequest;
 import com.example.bankingsystem.account.dto.crud.CreateAccountRequest;
 import com.example.bankingsystem.account.dto.crud.UpdateAccountRequest;
 import com.example.bankingsystem.account.model.Account;
@@ -17,6 +18,8 @@ import java.util.List;
 public interface AccountService {
 
     void createAccount(CreateAccountRequest request);
+
+    void createAccounts(BulkCreateAccountsRequest requests);
 
     void updateAccount(UpdateAccountRequest request);
 
@@ -35,5 +38,7 @@ public interface AccountService {
     void withdraw(String accountNumber, BigDecimal amount);
 
     void transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount);
+
+    void changeStatusToClosed(Long accountId);
 
 }

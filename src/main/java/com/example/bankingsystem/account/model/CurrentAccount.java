@@ -9,6 +9,10 @@ import java.math.BigDecimal;
 @DiscriminatorValue("CURRENT")
 public class CurrentAccount extends Account {
 
+    protected CurrentAccount() {
+        super();
+    }
+
     public CurrentAccount(AccountStatus status, BigDecimal balance, Owner owner) {
         super(status, balance, owner);
     }

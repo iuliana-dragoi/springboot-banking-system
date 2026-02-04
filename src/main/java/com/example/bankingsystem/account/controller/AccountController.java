@@ -57,7 +57,7 @@ public class AccountController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/create/bulk")
     public ResponseEntity<?> createBulk(@RequestBody @Valid BulkCreateAccountsRequest requests) {
-        requests.getRequests().forEach(accountService::createAccount);
+        accountService.createAccounts(requests);
         return ResponseEntity.ok(Map.of("createdCount", requests.getRequests().size()));
     }
 

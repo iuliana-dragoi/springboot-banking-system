@@ -45,6 +45,8 @@ public abstract class Account extends BaseEntity {
     })
     private Owner owner;
 
+    protected Account() {}
+
     public Account(AccountStatus status, BigDecimal balance, Owner owner) {
         this.accountNumber = AccountNumberGenerator.generate();
         this.status = status;

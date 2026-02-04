@@ -1,6 +1,10 @@
 package com.example.bankingsystem.account.service;
 
+import com.example.bankingsystem.account.dto.BulkCreateAccountsRequest;
+import com.example.bankingsystem.account.events.AccountCreatedEvent;
+import com.example.bankingsystem.account.events.AccountStatusChangeEvent;
 import com.example.bankingsystem.account.mapper.AccountMapper;
+import com.example.bankingsystem.account.mapper.AccountRequestMapper;
 import com.example.bankingsystem.account.mapper.AccountSearchMapper;
 import com.example.bankingsystem.account.mapper.AccountSpecificationBuilder;
 import com.example.bankingsystem.account.model.*;
@@ -13,15 +17,14 @@ import com.example.bankingsystem.account.dto.crud.CreateAccountRequest;
 import com.example.bankingsystem.account.dto.crud.UpdateAccountRequest;
 import com.example.bankingsystem.account.exception.AccountNotFoundException;
 import com.example.bankingsystem.account.repository.Projection.AccountSearchProjection;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.function.Consumer;
-
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,9 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public AccountServiceImpl(AccountRepository repository) {
+    public AccountServiceImpl(AccountRepository repository, ApplicationEventPublisher eventPublisher) {
         this.repository = repository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -42,6 +47,21 @@ public class AccountServiceImpl implements AccountService {
         Owner owner = new Owner(request.ownerFirstName(), request.ownerLastName(), request.ownerEmail(), address);
         Account account = AccountFactory.createAccount(request.type(), request.status(), request.balance(), owner);
         repository.save(account);
+        eventPublisher.publishEvent(new AccountCreatedEvent(account.getId(), account.getOwner().getEmail(), account.getType()));
+        eventPublisher.publishEvent(new AccountStatusChangeEvent(account.getId()));
+    }
+
+    @Transactional
+    @Override
+    public void createAccounts(BulkCreateAccountsRequest requests) {
+        List<CreateAccountRequest> accountRequests = requests.getRequests();
+        List<Account> accounts = accountRequests.stream().map(AccountRequestMapper::toAccount).toList();
+        List<Account> saved = repository.saveAll(accounts);
+
+        saved.forEach(account -> {
+            eventPublisher.publishEvent(new AccountCreatedEvent(account.getId(), account.getOwner().getEmail(), account.getType()));
+            eventPublisher.publishEvent(new AccountStatusChangeEvent(account.getId()));
+        });
     }
 
     @Transactional
@@ -135,5 +155,15 @@ public class AccountServiceImpl implements AccountService {
         if(value != null) {
             setter.accept(value);
         }
+    }
+
+    @Transactional
+    @Override
+    public void changeStatusToClosed(Long accountId) {
+        repository.findById(accountId).ifPresent(account -> {
+            account.setStatus(AccountStatus.CLOSED);
+            repository.save(account);
+            System.out.println("Account " + accountId + " status changed to CLOSED");
+        });
     }
 }
