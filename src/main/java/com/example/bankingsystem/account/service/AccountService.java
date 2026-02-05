@@ -1,21 +1,11 @@
 package com.example.bankingsystem.account.service;
 
-import com.example.bankingsystem.account.dto.search.AccountSearchRequest;
-import com.example.bankingsystem.account.dto.search.AccountSearchResponse;
 import com.example.bankingsystem.account.dto.crud.BulkCreateAccountsRequest;
 import com.example.bankingsystem.account.dto.crud.CreateAccountRequest;
 import com.example.bankingsystem.account.dto.crud.UpdateAccountRequest;
-import com.example.bankingsystem.account.model.Account;
-import com.example.bankingsystem.account.model.AccountStatus;
-import com.example.bankingsystem.account.model.AccountType;
-import com.example.bankingsystem.account.repository.Projection.AccountSearchProjection;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import java.math.BigDecimal;
-import java.util.List;
 
-public interface AccountService {
+public interface AccountService extends AccountSearchService {
 
     void createAccount(CreateAccountRequest request);
 
@@ -24,14 +14,6 @@ public interface AccountService {
     void updateAccount(UpdateAccountRequest request);
 
     void deleteAccount(Long id);
-
-    List<AccountSearchResponse> searchAccounts(AccountSearchRequest request);
-
-    List<Account> searchAccountsWithSpecification(AccountSearchRequest request);
-
-    Page<AccountSearchResponse> searchAccountsWithPagination(AccountSearchRequest request, Pageable pageable);
-
-    Page<AccountSearchProjection> searchByStatusAndType(AccountStatus status, AccountType type, Pageable pageable);
 
     void deposit(String accountNumber, BigDecimal amount);
 
