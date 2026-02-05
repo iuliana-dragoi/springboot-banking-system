@@ -1,8 +1,8 @@
 package com.example.bankingsystem.account.controller;
 
-import com.example.bankingsystem.account.dto.AccountSearchRequest;
-import com.example.bankingsystem.account.dto.AccountSearchResponse;
-import com.example.bankingsystem.account.dto.BulkCreateAccountsRequest;
+import com.example.bankingsystem.account.dto.search.AccountSearchRequest;
+import com.example.bankingsystem.account.dto.search.AccountSearchResponse;
+import com.example.bankingsystem.account.dto.crud.BulkCreateAccountsRequest;
 import com.example.bankingsystem.account.dto.actions.DepositRequest;
 import com.example.bankingsystem.account.dto.actions.TransferRequest;
 import com.example.bankingsystem.account.dto.actions.WithdrawRequest;

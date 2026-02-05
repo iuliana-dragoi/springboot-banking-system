@@ -1,6 +1,5 @@
-package com.example.bankingsystem.account.dto;
+package com.example.bankingsystem.account.dto.crud;
 
-import com.example.bankingsystem.account.dto.crud.CreateAccountRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;

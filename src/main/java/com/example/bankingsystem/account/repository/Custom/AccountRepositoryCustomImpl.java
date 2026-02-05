@@ -1,19 +1,15 @@
 package com.example.bankingsystem.account.repository.Custom;
 
 import com.example.bankingsystem.account.model.Account;
-import com.example.bankingsystem.account.dto.AccountSearchCriteria;
-import com.example.bankingsystem.account.repository.Projection.AccountSearchProjection;
+import com.example.bankingsystem.account.dto.search.AccountSearchCriteria;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 

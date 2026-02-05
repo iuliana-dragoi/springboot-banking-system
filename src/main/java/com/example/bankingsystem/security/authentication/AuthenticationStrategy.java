@@ -1,4 +1,4 @@
-package com.example.bankingsystem.authentication;
+package com.example.bankingsystem.security.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;

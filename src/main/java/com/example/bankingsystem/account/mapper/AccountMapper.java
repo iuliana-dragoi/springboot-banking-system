@@ -1,6 +1,6 @@
 package com.example.bankingsystem.account.mapper;
 
-import com.example.bankingsystem.account.dto.AccountSearchResponse;
+import com.example.bankingsystem.account.dto.search.AccountSearchResponse;
 import com.example.bankingsystem.account.model.Account;
 import org.springframework.data.domain.Page;
 

@@ -1,4 +1,4 @@
-package com.example.bankingsystem.account.dto;
+package com.example.bankingsystem.account.dto.search;
 
 import com.example.bankingsystem.account.model.AccountStatus;
 import com.example.bankingsystem.account.model.AccountType;

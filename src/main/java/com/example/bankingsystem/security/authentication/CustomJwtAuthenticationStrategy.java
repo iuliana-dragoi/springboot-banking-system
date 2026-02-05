@@ -1,4 +1,4 @@
-package com.example.bankingsystem.authentication;
+package com.example.bankingsystem.security.authentication;
 
 import com.example.bankingsystem.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;

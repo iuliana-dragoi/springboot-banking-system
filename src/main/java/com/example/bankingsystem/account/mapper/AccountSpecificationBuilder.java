@@ -1,6 +1,6 @@
 package com.example.bankingsystem.account.mapper;
 
-import com.example.bankingsystem.account.dto.AccountSearchRequest;
+import com.example.bankingsystem.account.dto.search.AccountSearchRequest;
 import com.example.bankingsystem.account.model.Account;
 import com.example.bankingsystem.account.repository.Specification.AccountSpecification;
 import org.springframework.data.jpa.domain.Specification;

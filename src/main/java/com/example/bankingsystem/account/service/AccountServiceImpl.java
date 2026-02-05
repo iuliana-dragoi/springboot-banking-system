@@ -1,6 +1,6 @@
 package com.example.bankingsystem.account.service;
 
-import com.example.bankingsystem.account.dto.BulkCreateAccountsRequest;
+import com.example.bankingsystem.account.dto.crud.BulkCreateAccountsRequest;
 import com.example.bankingsystem.account.events.AccountCreatedEvent;
 import com.example.bankingsystem.account.events.AccountStatusChangeEvent;
 import com.example.bankingsystem.account.mapper.AccountMapper;
@@ -9,10 +9,10 @@ import com.example.bankingsystem.account.mapper.AccountSearchMapper;
 import com.example.bankingsystem.account.mapper.AccountSpecificationBuilder;
 import com.example.bankingsystem.account.model.*;
 import com.example.bankingsystem.account.factory.AccountFactory;
-import com.example.bankingsystem.account.dto.AccountSearchCriteria;
+import com.example.bankingsystem.account.dto.search.AccountSearchCriteria;
 import com.example.bankingsystem.account.repository.AccountRepository;
-import com.example.bankingsystem.account.dto.AccountSearchRequest;
-import com.example.bankingsystem.account.dto.AccountSearchResponse;
+import com.example.bankingsystem.account.dto.search.AccountSearchRequest;
+import com.example.bankingsystem.account.dto.search.AccountSearchResponse;
 import com.example.bankingsystem.account.dto.crud.CreateAccountRequest;
 import com.example.bankingsystem.account.dto.crud.UpdateAccountRequest;
 import com.example.bankingsystem.account.exception.AccountNotFoundException;
@@ -163,7 +163,6 @@ public class AccountServiceImpl implements AccountService {
         repository.findById(accountId).ifPresent(account -> {
             account.setStatus(AccountStatus.CLOSED);
             repository.save(account);
-            System.out.println("Account " + accountId + " status changed to CLOSED");
         });
     }
 }

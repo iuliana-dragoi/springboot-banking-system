@@ -1,4 +1,4 @@
-package com.example.bankingsystem.authentication;
+package com.example.bankingsystem.security.authentication;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

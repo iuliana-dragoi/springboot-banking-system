@@ -1,7 +1,7 @@
 package com.example.bankingsystem.account.repository.Custom;
 
 import com.example.bankingsystem.account.model.Account;
-import com.example.bankingsystem.account.dto.AccountSearchCriteria;
+import com.example.bankingsystem.account.dto.search.AccountSearchCriteria;
 import java.util.List;
 
 public interface AccountRepositoryCustom {

@@ -1,7 +1,7 @@
 package com.example.bankingsystem.account.mapper;
 
-import com.example.bankingsystem.account.dto.AccountSearchCriteria;
-import com.example.bankingsystem.account.dto.AccountSearchRequest;
+import com.example.bankingsystem.account.dto.search.AccountSearchCriteria;
+import com.example.bankingsystem.account.dto.search.AccountSearchRequest;
 
 public class AccountSearchMapper {
 

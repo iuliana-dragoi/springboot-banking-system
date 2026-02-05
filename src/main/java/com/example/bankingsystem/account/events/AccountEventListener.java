@@ -2,7 +2,6 @@ package com.example.bankingsystem.account.events;
 
 import com.example.bankingsystem.account.model.AccountType;
 import com.example.bankingsystem.account.service.AccountService;
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
@@ -17,13 +16,12 @@ public class AccountEventListener {
         this.accountService = accountService;
     }
 
-    @EventListener
+    @Async("accountTaskExecutor")
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleAccountCreated(AccountCreatedEvent event) {
-        System.out.println("Account created for: " + event.ownerEmail());
-
-        AccountAction sendWelcomeEmail = e -> System.out.println("Sending welcome email to " + e.ownerEmail());
-        AccountAction logAudit = e -> System.out.println("Logging audit for account " + e.accountId());
-        AccountAction applyPremiumBenefits = e -> System.out.println("Applying premium benefits for " + e.ownerEmail());
+        NotificationAction sendWelcomeEmail = e -> System.out.println("Sending welcome email to " + e.ownerEmail());
+        NotificationAction logAudit = e -> System.out.println("Logging audit for account " + e.accountId());
+        NotificationAction applyPremiumBenefits = e -> { System.out.println("Applying premium benefits for " + e.ownerEmail());};
 
         sendWelcomeEmail.execute(event);
         logAudit.execute(event);
