@@ -1,6 +1,5 @@
 package com.example.bankingsystem.security;
 
-import com.example.bankingsystem.security.authentication.DynamicAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -15,10 +14,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final DynamicAuthenticationFilter dynamicAuthenticationFilter;
+    private final InternalJwtProperties jwtProperties;
 
-    public SecurityConfig(DynamicAuthenticationFilter dynamicAuthenticationFilter) {
-        this.dynamicAuthenticationFilter = dynamicAuthenticationFilter;
+    public SecurityConfig(InternalJwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
     }
 
     @Bean
@@ -31,7 +30,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .anyRequest().authenticated()
             )
-            .addFilterBefore(dynamicAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new InternalJwtFilter(jwtProperties), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
