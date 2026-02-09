@@ -7,7 +7,7 @@ import com.example.bankingsystem.bank.country.US.UsPaymentProcessor;
 import com.example.bankingsystem.bank.country.US.UsTaxReporter;
 import org.springframework.stereotype.Component;
 
-@Component("usFactory")
+@Component("US")
 public class UsBankFactory implements CountryBankFactory {
 
     @Override

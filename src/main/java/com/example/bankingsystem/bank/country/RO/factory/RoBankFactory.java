@@ -7,7 +7,7 @@ import com.example.bankingsystem.bank.country.RO.RoPaymentProcessor;
 import com.example.bankingsystem.bank.country.RO.RoTaxReporter;
 import org.springframework.stereotype.Component;
 
-@Component("roFactory")
+@Component("RO")
 public class RoBankFactory implements CountryBankFactory {
 
     @Override
