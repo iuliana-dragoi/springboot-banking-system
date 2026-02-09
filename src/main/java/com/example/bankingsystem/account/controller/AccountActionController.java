@@ -38,6 +38,7 @@ public class AccountActionController {
         return ResponseEntity.noContent().build();
     }
 
+    @Deprecated(since = "09.02.2026", forRemoval = true)
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping("/transfer")
     public ResponseEntity<Void> transfer(@RequestBody @Valid TransferRequest request) {

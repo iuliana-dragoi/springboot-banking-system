@@ -34,10 +34,14 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository repository;
     private final ApplicationEventPublisher eventPublisher;
+    private final AccountFactory accountFactory;
+    private final AccountRequestMapper accountRequestMapper;
 
-    public AccountServiceImpl(AccountRepository repository, ApplicationEventPublisher eventPublisher) {
+    public AccountServiceImpl(AccountRepository repository, ApplicationEventPublisher eventPublisher, AccountFactory accountFactory, AccountRequestMapper accountRequestMapper) {
         this.repository = repository;
         this.eventPublisher = eventPublisher;
+        this.accountFactory = accountFactory;
+        this.accountRequestMapper = accountRequestMapper;
     }
 
     @Transactional
@@ -45,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
     public void createAccount(CreateAccountRequest request) {
         Address address = new Address(request.street(), request.city(), request.postalCode(), request.country());
         Owner owner = new Owner(request.ownerFirstName(), request.ownerLastName(), request.ownerEmail(), address);
-        Account account = AccountFactory.createAccount(request.type(), request.status(), request.balance(), owner);
+        Account account = accountFactory.createAccount(request.type(), request.status(), request.balance(), owner);
         repository.save(account);
         eventPublisher.publishEvent(new AccountCreatedEvent(account.getId(), account.getOwner().getEmail(), account.getType()));
         eventPublisher.publishEvent(new AccountStatusChangeEvent(account.getId()));
@@ -55,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void createAccounts(BulkCreateAccountsRequest requests) {
         List<CreateAccountRequest> accountRequests = requests.getRequests();
-        List<Account> accounts = accountRequests.stream().map(AccountRequestMapper::toAccount).toList();
+        List<Account> accounts = accountRequests.stream().map(accountRequestMapper::toAccount).toList();
         List<Account> saved = repository.saveAll(accounts);
 
         saved.forEach(account -> {
@@ -137,6 +141,7 @@ public class AccountServiceImpl implements AccountService {
         log.info("Withdrew {} from account {}", amount, accountNumber);
     }
 
+    @Deprecated(since = "09.02.2026", forRemoval = true)
     @Transactional
     @Override
     public void transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
