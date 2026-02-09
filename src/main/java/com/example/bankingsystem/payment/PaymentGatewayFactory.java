@@ -9,6 +9,7 @@ import com.example.bankingsystem.payment.adapter.PayPalAdapter;
 import com.example.bankingsystem.payment.adapter.StripeAdapter;
 import com.example.bankingsystem.payment.adapter.VisaAdapter;
 import org.springframework.stereotype.Component;
+import java.math.BigDecimal;
 
 @Component
 public class PaymentGatewayFactory {
@@ -19,12 +20,15 @@ public class PaymentGatewayFactory {
     private final LocalAPI localAPI = new LocalAPI();
 
     public PaymentGateway getGateway(String type) {
-        return switch (type.toLowerCase()) {
+        PaymentGateway adapter = switch (type.toLowerCase()) {
             case "stripe" -> new StripeAdapter(stripePayment);
             case "paypal" -> new PayPalAdapter(payPalService);
             case "visa" -> new VisaAdapter(visaDirect);
             case "local" -> new LocalProcessorAdapter(localAPI);
             default -> throw new IllegalArgumentException("Unknown payment gateway type: " + type);
         };
+
+        PaymentGateway withFee = new FeePaymentDecorator(adapter, BigDecimal.valueOf(5));
+        return new PaymentGatewayProxy(withFee);
     }
 }

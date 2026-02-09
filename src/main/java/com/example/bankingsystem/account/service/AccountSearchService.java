@@ -21,4 +21,5 @@ public interface AccountSearchService {
 
     Page<AccountSearchProjection> searchByStatusAndType(AccountStatus status, AccountType type, Pageable pageable);
 
+    Account searchById(Long id);
 }

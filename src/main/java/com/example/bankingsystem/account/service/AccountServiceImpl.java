@@ -156,6 +156,11 @@ public class AccountServiceImpl implements AccountService {
         log.info("Transferred {} from {} to {}", amount, fromAccountNumber, toAccountNumber);
     }
 
+    @Override
+    public Account searchById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new AccountNotFoundException("Account not found!"));
+    }
+
     private static<T> void applyIfNotNull(T value, Consumer<T> setter) {
         if(value != null) {
             setter.accept(value);
