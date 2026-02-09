@@ -1,5 +1,6 @@
 package com.example.bankingsystem.account.model;
 
+import com.example.bankingsystem.account.composite.Balanceable;
 import com.example.bankingsystem.account.exception.InvalidAmountException;
 import com.example.bankingsystem.common.model.BaseEntity;
 import com.example.bankingsystem.account.util.AccountNumberGenerator;
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @Getter
-public abstract class Account extends BaseEntity implements Cloneable {
+public abstract class Account extends BaseEntity implements Cloneable, Balanceable {
 
     @Column(nullable = false, unique = true)
     private String accountNumber;
@@ -82,5 +83,10 @@ public abstract class Account extends BaseEntity implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError("Cloning not supported", e);
         }
+    }
+
+    @Override
+    public BigDecimal balance() {
+        return this.balance;
     }
 }
