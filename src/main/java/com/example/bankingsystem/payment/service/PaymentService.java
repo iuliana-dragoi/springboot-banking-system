@@ -4,5 +4,5 @@ import java.math.BigDecimal;
 
 public interface PaymentService {
 
-    void processPayment(Long sourceAccountId, Long targetAccountId, BigDecimal amount);
+    void processPayment(Long sourceAccountId, Long targetAccountId, BigDecimal amount, String gatewayType);
 }

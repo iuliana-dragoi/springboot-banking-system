@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @Getter
-public abstract class Account extends BaseEntity {
+public abstract class Account extends BaseEntity implements Cloneable {
 
     @Column(nullable = false, unique = true)
     private String accountNumber;
@@ -66,5 +66,21 @@ public abstract class Account extends BaseEntity {
             throw new InvalidAmountException("Balance cannot be negative!");
 
         balance = balance.subtract(amount);
+    }
+
+    @Override
+    public Account clone() throws CloneNotSupportedException {
+        try {
+            Account cloned = (Account) super.clone();
+            if (this.owner != null) {
+                cloned.setOwner(this.owner.clone());
+            }
+            cloned.setBalance(this.getBalance());
+            cloned.setStatus(this.getStatus());
+            cloned.accountNumber = AccountNumberGenerator.generate();
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Cloning not supported", e);
+        }
     }
 }

@@ -10,7 +10,7 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Owner {
+public class Owner implements Cloneable {
 
     private String firstName;
     private String lastName;
@@ -42,5 +42,14 @@ public class Owner {
     @Override
     public int hashCode() {
         return Objects.hash(firstName, lastName, email);
+    }
+
+    @Override
+    protected Owner clone() throws CloneNotSupportedException {
+        try {
+            return (Owner) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Owner cloning not supported", e);
+        }
     }
 }
